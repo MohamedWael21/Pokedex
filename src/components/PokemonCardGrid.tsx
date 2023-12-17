@@ -32,11 +32,14 @@ const PokemonCardGrid = ({ pokemons }: PokemonCardGridProps) => {
                   ) : (
                     <FaTrash
                       className="trash"
-                      onClick={() =>
-                        dispatch(
+                      onClick={async () => {
+                        await dispatch(
                           removePokemonFromUserList({ id: pokemon.firebaseId })
-                        )
-                      }
+                        );
+                        dispatch(
+                          setToast(`Remove ${pokemon.name} From Your List`)
+                        );
+                      }}
                     />
                   )}
                 </div>
