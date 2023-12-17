@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { addToCompare } from "../app/slices/PokemonSlice";
 import { setToast } from "../app/slices/AppSlice";
+import { addPokemonToList } from "../app/reducers/addPokemonToList";
+import { removePokemonFromUserList } from "../app/reducers/removePokemonFromUserList";
 type PokemonCardGridProps = {
   pokemons: undefined | userPokemonsType[];
 };
@@ -23,9 +25,19 @@ const PokemonCardGrid = ({ pokemons }: PokemonCardGridProps) => {
                 <div className="pokemon-card-list">
                   {location.pathname.includes("/pokemon") ||
                   location.pathname.includes("/search") ? (
-                    <FaPlus className="plus" />
+                    <FaPlus
+                      className="plus"
+                      onClick={() => dispatch(addPokemonToList(pokemon))}
+                    />
                   ) : (
-                    <FaTrash clasName="trash" />
+                    <FaTrash
+                      className="trash"
+                      onClick={() =>
+                        dispatch(
+                          removePokemonFromUserList({ id: pokemon.firebaseId })
+                        )
+                      }
+                    />
                   )}
                 </div>
                 <div className="pokemon-card-compare">

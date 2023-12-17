@@ -12,7 +12,9 @@ import { ToastContainer, ToastOptions, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { useEffect } from "react";
-import { clearToasts } from "./app/slices/AppSlice";
+import { clearToasts, setUserStatus } from "./app/slices/AppSlice";
+import { onAuthStateChanged } from "firebase/auth/cordova";
+import { firebaseAuth } from "./utils/firebaseConfig";
 function App() {
   const { toasts } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
@@ -31,6 +33,14 @@ function App() {
       dispatch(clearToasts());
     }
   }, [toasts, dispatch]);
+
+  useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+        dispatch(setUserStatus({ email: user.email, uid: user.uid }));
+      }
+    });
+  }, []);
   return (
     <div className="main-container">
       <Background />
