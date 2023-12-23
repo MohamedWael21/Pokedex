@@ -19,10 +19,6 @@ const navigationRoutes = [
     name: "My List",
     route: "/list",
   },
-  {
-    name: "About",
-    route: "/about",
-  },
 ];
 const Navbar = () => {
   const location = useLocation();

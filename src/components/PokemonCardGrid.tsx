@@ -3,10 +3,11 @@ import { IoGitCompare } from "react-icons/io5";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
-import { addToCompare } from "../app/slices/PokemonSlice";
-import { setToast } from "../app/slices/AppSlice";
+import { addToCompare, setCurrentPokemon } from "../app/slices/PokemonSlice";
+import { setPokemonTab, setToast } from "../app/slices/AppSlice";
 import { addPokemonToList } from "../app/reducers/addPokemonToList";
 import { removePokemonFromUserList } from "../app/reducers/removePokemonFromUserList";
+import { POKEMON_TABS } from "../utils/constants";
 type PokemonCardGridProps = {
   pokemons: undefined | userPokemonsType[];
 };
@@ -61,7 +62,11 @@ const PokemonCardGrid = ({ pokemons }: PokemonCardGridProps) => {
                   alt="pokemon"
                   className="pokemon-card-img"
                   loading="lazy"
-                  onClick={() => navigate(`/pokemon/${pokemon.id}`)}
+                  onClick={() => {
+                    dispatch(setPokemonTab(POKEMON_TABS.description));
+                    dispatch(setCurrentPokemon(undefined));
+                    navigate(`/pokemon/${pokemon.id}`);
+                  }}
                 />
                 <div className="pokemon-card-types">
                   {pokemon.types.map((type, index) => {
